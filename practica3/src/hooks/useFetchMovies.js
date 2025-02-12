@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"; 
 
 export const API_KEY = "COLOCA TU API KEY ACA";
-/* Hook personalizado para obtener peliculas desde la API de OMDd
+/**
+    * Hook personalizado para obtener peliculas desde la API de OMDd
     * @param {string} query - termino de busqueda ingresado por el usuario
     * @returns {Object} - retorna un objeto con: -movies, isLoading, error.
 */
