@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useFetchMovieDetails } from '../hooks/useFetchMovieDetails'; 
 import StarRating from './StarRating'; 
+import { useFetchMovieDetails } from "../hooks/useFetchMoviesDetails";
 
 
 /**
@@ -13,6 +13,7 @@ import StarRating from './StarRating';
  */
 
 export const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched})=>{
+    
     const {movie, error, isLoading} = useFetchMovieDetails(selectedId);
 
     const {
