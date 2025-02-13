@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"; 
 
-export const API_KEY = "COLOCA TU API KEY ACA";
+export const API_KEY = '8ed81e3d';
 /**
     * Hook personalizado para obtener peliculas desde la API de OMDd
     * @param {string} query - termino de busqueda ingresado por el usuario
@@ -26,7 +26,7 @@ export function useFetchMovies(query){
             setError(null);
 
             const response = await
-            fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
+            fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`);
 
             if (!response.ok)
                 throw new Error("Error al cargar peliculas");
