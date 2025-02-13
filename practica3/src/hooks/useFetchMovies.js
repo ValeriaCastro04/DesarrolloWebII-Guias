@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"; 
 
-export const API_KEY = '8ed81e3d';
+export const API_KEY = 'b409c8f4';
 /**
     * Hook personalizado para obtener peliculas desde la API de OMDd
     * @param {string} query - termino de busqueda ingresado por el usuario
