@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 export const BudgetForm = () => {
-    const [buget, setBudget]= useState(0)
-    const isInvalid = isNaN(buget) || buget<=0 //si no es un numero >0 es invalido
+    const [budget, setBudget]= useState(0)
+    const isInvalid = isNaN(budget) || budget<=0 //si no es un numero >0 es invalido
 
     const handleChange=(e)=>{setBudget(e.target.valueAsNumber)}
 
