@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { BudgetDispatchContext } from "../context/BudgetContext";
 
 export const BudgetForm = () => {
     const [budget, setBudget]= useState(0)
@@ -6,8 +7,19 @@ export const BudgetForm = () => {
 
     const handleChange=(e)=>{setBudget(e.target.valueAsNumber)}
 
+    const dispatch = useContext(BudgetDispatchContext)
+
+    const handleSubmit = (e)=> {
+        e.preventDefault()
+        dispatch({
+            type:'add-budget',
+            payload:{budget}
+        })
+
+    }
+
     return(
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="flex flex-col space-y-5">
                 <label htmlFor="budget" className="text-4xl text-blue-600 font-bold text-center">
                     Definir presupuesto
