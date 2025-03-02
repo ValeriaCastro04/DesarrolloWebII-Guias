@@ -1,8 +1,19 @@
+const initialBudget=()=>{
+    const localStorageBudget=localStorage.getItem('budget')
+    return localStorageBudget? parseFloat(localStorageBudget):0
+}
+
+const localStorageExpenses=()=>{
+    const localStorageExpenses=localStorage.getItem('expenses')
+    return localStorageExpenses? JSON.parse(localStorageExpenses):[]
+}
+
 export const initialState = {
-    budget: 0,
+    budget: initialBudget(),
     modal: false,
-    expenses: [],
-    editingId: ""
+    expenses: localStorageExpenses(),
+    editingId: "",
+    currentCategory: "",
 }
 
 export const budgetReducer = (state, action) => {
@@ -12,7 +23,11 @@ export const budgetReducer = (state, action) => {
         case "show-modal":
             return { ...state, modal: true }
         case "close-modal":
-            return { ...state, modal: false, editingId: "" } 
+            return { 
+                ...state, 
+                modal: false, 
+                editingId: "" 
+            } 
         case "remove-expense":
             return {
                 ...state,
@@ -28,13 +43,38 @@ export const budgetReducer = (state, action) => {
                 modal: false,
                 editingId: ""
             }
+
         case "get-expense-by-id":
             return {
                 ...state,
                 editingId: action.payload.id,
                 modal: true
             }
-
+        case "update-expense":
+            return {
+                ...state,
+                expenses: state.expenses.map(expense => expense.id === action.payload.expense.id ?
+                    action.payload.expense :
+                    expense),
+                modal:false,
+                editingId: ""
+            }
+        
+        case 'reset-app': {
+            return {
+                ...state,
+                budget: 0,
+                expenses: [],
+                editingId: null,
+                filterCategory: ''
+            };
+        }
+        
+        case "add-filter-category":
+            return {
+                ...state, 
+                currentCategory:action.payload.categoryId
+            }
         default:
             return state;
     }

@@ -17,8 +17,7 @@ export const ExpenseDetails = ({ expense }) => {
     // Define una acción que se mostrará cuando el usuario deslice hacia la izquierda
     const leadingAction = () => (
         <LeadingActions>
-            {/* Acción de actualización (sin lógica implementada por ahora) */}
-            <SwipeAction onClick={() => dispatch({type:"get-expense-by-id", payload: {id:expense.id}})}>
+            <SwipeAction onClick={() => dispatch({type:"get-expense-by-id", payload: {id:expense.id} })}>
                 Actualizar
             </SwipeAction>
         </LeadingActions>

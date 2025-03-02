@@ -20,8 +20,8 @@ export const ExpenseForm = () => {
 
     useEffect(()=> {
         if(state.editingId){
-            const editingExpense = state.expenses.filter(currentExpense=>currentExpense.id===state.editingId)[0]
-            setExpense(editingExpense)
+            const editingExpense = state.expenses.find(currentExpense => currentExpense.id === state.editingId);
+            if (editingExpense) setExpense(editingExpense);
         }
     },[state.editingId])
 
@@ -46,29 +46,54 @@ export const ExpenseForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        //Validacion
-        if(Object.values(expense).includes('')){
-            setError('Todos los campos son obligatorios')
-            return
+        if (Object.values(expense).includes('')) {
+            setError('Todos los campos son obligatorios');
+            return;
         }
 
-    dispatch({type: 'add-expense', payload:{expense}})
+        // Calcular el total de gastos actual + el gasto que se quiere agregar o editar
+        const currentTotalExpenses = state.expenses.reduce((total, item) => total + item.amount, 0);
 
-    //Reiniciar el state/form
-    setExpense({
-        expenseName: "",
-        amount: 0,
-        category: "",
-        date: new Date(),
+        let newTotalExpenses;
+        if (state.editingId) {
+            // Si estamos editando, restar el gasto actual y sumar el nuevo
+            const oldExpense = state.expenses.find(exp => exp.id === state.editingId);
+            newTotalExpenses = currentTotalExpenses - oldExpense.amount + expense.amount;
+        } else {
+            // Si estamos agregando, simplemente sumamos el nuevo gasto
+            newTotalExpenses = currentTotalExpenses + expense.amount;
+        }
 
+        // Validar que no exceda el presupuesto
+        if (newTotalExpenses > state.budget) {
+            setError('El gasto total excede el presupuesto disponible.');
+            return;
+        }
+
+        if (state.editingId) {
+            dispatch({ type: 'update-expense', payload: { expense: { id: state.editingId, ...expense } } })
+        } else {
+            dispatch({ type: 'add-expense', payload: { expense } })
+        }
+
+        // Limpiar formulario y error
+        setExpense({
+            expenseName: "",
+            amount: 0,
+            category: "",
+            date: new Date(),
         })
 
-    }
+        setError('')
+    };
+
+    const formTitle = state.editingId ? "Guardar Cambios" : "Nuevo Gasto";
+    const buttonText = state.editingId ? "Guardar Cambios" : "Registrar Gasto";
 
     return(
         <form className='space-y-5' onSubmit={handleSubmit}>
             <legend className='uppercase text-center text-2xl font-black border-b-4 border-blue-500 py-2'>
-                Nuevo Gasto
+                {formTitle}
             </legend>
 
             {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -137,7 +162,7 @@ export const ExpenseForm = () => {
             <input 
                 type="submit"
                 className='bg-blue-600 cursor-pointer w-full p-2 text-white uppercase font-bold rounded-lg'
-                value="Registrar gasto"
+                value={buttonText}
             />
         </form>
     )
