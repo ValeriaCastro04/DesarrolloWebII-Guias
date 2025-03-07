@@ -1,8 +1,12 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 export default function Header(){
+    const {pathname} = useLocation() // esta variable tendra o favorito dependiendo de la pagina actual
+
+    const isHome = pathname === '/'
+
     return (
-        <header className="bg-slate-800">
+        <header className={isHome? "bg-[url('/bg.jpg')] bg-center bg-cover": "bg-slate-800"}>
             <div className="mx-auto container px-5 py-16">
                 <div className="flex justify-between items-center">
                     <div>
