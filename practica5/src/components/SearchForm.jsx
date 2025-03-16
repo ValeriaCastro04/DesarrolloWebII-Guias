@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
 import { useAppStore } from "../store/useAppStore"
 
+
 export default function SearchForm() {
     const fetchCategories = useAppStore((state) => state.fetchCategories)
     const categories = useAppStore((state) => state.categories)
+    const searchRecipes = useAppStore((state) => state.searchRecipes)
+    const addNotification = useAppStore((state) => state.addNotification);
 
     const [searchFilters, setSearchFilters] = useState({
         ingredient: '',
@@ -17,15 +20,13 @@ export default function SearchForm() {
         })
     }
 
-    const searchRecipes = useAppStore((state) => state.searchRecipes)
-
     const handleSubmit = (e) => {
         e.preventDefault()
 
         // Validar que no haya campos vacíos
         if (Object.values(searchFilters).includes('')) {
-            console.log('Todos los campos son obligatorios')
-            return
+            addNotification('Todos los campos son obligatorios', "error");//aqui incluyo la notificacion de error
+            return;
         }
 
         // Consultar las recetas
