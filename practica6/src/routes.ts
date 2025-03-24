@@ -8,11 +8,6 @@ router.get('/', (req: Request, res: Response) => {
     res.status(200).send('Bienvenido a la API');
 });
 
-router.post('/auth/register', async (req, res) => {
-    console.log(req.body);
-    const user = new User(req.body);
-    await user.save();
-    res.status(201).json({message: 'Datos de usuario recibidos con exito'});
-});
+router.post('/auth/register', createAccount);
 
 export default router;
